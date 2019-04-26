@@ -110,6 +110,9 @@
         <button type="button" v-if="toolbars.save" @click="$clicks('save')" class="op-icon fa fa-mavon-floppy-o"
                 aria-hidden="true"
                 :title="`${d_words.tl_save} (ctrl+s)`"></button>
+        <button type="button" v-if="videoSupport" @click="$videoBtn" class="op-icon fa"
+                aria-hidden="true"
+                :title="`添加视频`">视</button>
         <slot name="left-toolbar-after" />
 
         <!-- 添加image链接 -->
@@ -136,6 +139,10 @@
     export default {
         name: 's-md-toolbar-left',
         props: {
+            videoSupport: {
+            type: Boolean,
+            default: true
+            },
             // 是否开启编辑
             editable: {
                 type: Boolean,
@@ -172,6 +179,9 @@
             }
         },
         methods: {
+            $videoBtn() {
+                this.$emit('videoAdd')
+            },
             $imgLinkAdd() {
                 this.$emit('toolbar_left_addlink', this.link_type, this.link_text, this.link_addr);
                 this.s_img_link_open = false;
