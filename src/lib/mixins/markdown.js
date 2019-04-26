@@ -99,16 +99,11 @@ export default {
         hljs_opts.highlighted = this.ishljs;
     },
     methods: {
-        $render(src, func, videoFoo) {
+        $render(src, func) {
             var $vm = this;
             missLangs = {};
             needLangs = [];
-            var res;
-            if (videoFoo) {
-                res = markdown.render(videoFoo)
-            } else {
-                res = markdown.render(src);
-            }
+            var res = markdown.render(src);
             if (this.ishljs) {
                 if (needLangs.length > 0) {
                     $vm.$_render(src, func, res);

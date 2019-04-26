@@ -124,9 +124,9 @@ export default {
             type: Boolean,
             default: true
         },
-        videoUrl: {
-            type: String,
-            default: `https://media.w3.org/2010/05/sintel/trailer.mp4`
+        relpaceStrByRe: {
+            type: Function,
+            default: null
         },
         // 是否渲染滚动条样式(webkit)
         scrollStyle: {
@@ -344,34 +344,7 @@ export default {
         return this.mixins[0].data().markdownIt
     },
     methods: {
-        // test() {
-        //     this.videoSupport = !this.videoSupport
-        //     this.iRender('',this.videoFoo('4444'))
-        // },
-        $videoAdd () {
-            console.log('---video-test---')
-            this.insertText(this.getTextareaDom(),
-                        {
-                            prefix: '!{{123}}',
-                            subfix: '',
-                            str: '[titlename]'
-                        });
-        },
-        videoFoo(videoUrl = this.videoUrl, videoType = 'mp4') {
-            if (!this.videoSupport) {
-                return ''
-            }
-            let videoRe = /!\{{2}\s*(?<videoNumber>\d+)\s*\}{2}(\[(?<titleName>\S+)\])?/g
-            let src = this.d_value.replace(videoRe,function() {
-                return `<h3>number:${arguments[6].videoNumber} ${arguments[6].titleName ? '||title:' + arguments[6].titleName : ''}</h3>
-                        <video controls style="width:100%">
-                            <source src="${videoUrl}" type="video/mp4">
-                            Sorry, yosur browser doesn't support embedded videos.
-                        </video>
-                        <br/>
-                        ` });
-            return src
-        },
+    
         loadExternalLink(name, type, callback) {
             if (typeof this.p_external_link[name] !== 'function') {
                 if (this.p_external_link[name] != false) {
@@ -643,9 +616,42 @@ export default {
                 console.warn('hljs color scheme', val, 'do not exist, hljs color scheme will not change');
             }
         },
-        iRender(toggleChange, videoFoo = this.videoFoo()) {
+        videoFoo(videoUrl = this.videoUrl, videoType = 'mp4') {
+            if (!this.videoSupport) {
+                return ''
+            }
+            let videoRe = /!\{{2}\s*(?<videoNumber>\d+)\s*\}{2}(\[(?<titleName>\S+)\])?/g
+            let src = this.d_value.replace(videoRe,function() {
+                return `<h3>number:${arguments[6].videoNumber} ${arguments[6].titleName ? '||title:' + arguments[6].titleName : ''}</h3>
+                        <video controls style="width:100%">
+                            <source src="${videoUrl}" type="video/mp4">
+                            Sorry, yosur browser doesn't support embedded videos.
+                        </video>
+                        <br/>
+                        ` });
+            return src
+        },
+        // test() {
+        //     this.relpaceStrByRe = () => {
+        //         let src = this.d_value.replace(/foo/g,'bar')
+        //         return src
+        //     }
+        //     this.iRender()
+        // },
+        $addStrInAnywhere(obj = {prefix: '',str: '',subfix: ''}) {
+            this.insertText(this.getTextareaDom(), obj);
+        },
+        $videoAdd () {
+            this.emit('$videoAdd')
+        },
+        iRender(toggleChange) {
             var $vm = this;
-            this.$render($vm.d_value, function(res) {
+            // here
+            let temp = ''
+            if (this.relpaceStrByRe) {
+                temp = this.relpaceStrByRe()
+            }
+            this.$render(temp || $vm.d_value, function(res) {
                 // render
                 $vm.d_render = res;
                 // change回调  toggleChange == false 时候触发change回调
@@ -663,7 +669,7 @@ export default {
                 $vm.currentTimeout = setTimeout(() => {
                     $vm.saveHistory();
                 }, 500);
-            },videoFoo)
+            })
         },
         // 清空上一步 下一步缓存
         $emptyHistory() {
