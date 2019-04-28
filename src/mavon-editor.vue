@@ -124,14 +124,10 @@ export default {
             type: Boolean,
             default: false
         },
-        relpaceStrByRegexp: {
-            type: Function,
-            default: null
-        },
-        replacedStr: {
-            type: String,
-            default: ''
-        },
+        // relpaceStrByRegexp: {
+        //     type: Function,
+        //     default: null
+        // },
         // 是否渲染滚动条样式(webkit)
         scrollStyle: {
             type: Boolean,
@@ -635,7 +631,7 @@ export default {
                         ` });
             return src
         },
-        // test () {
+        // test() {
         //     this.relpaceStrByRe = () => {
         //         let src = this.d_value.replace(/foo/g,'bar')
         //         return src
@@ -646,14 +642,17 @@ export default {
             this.insertText(this.getTextareaDom(), obj);
         },
         $videoAdd () {
-            this.$emit('$videoAdd')
+            this.$emit('videoAdd')
+        },
+        relpaceStrByRegexp() {
+            this.$emit('relpaceStrByRegexp')
         },
         iRender(toggleChange) {
             var $vm = this;
             // here
             let temp = ''
-            if ($vm.replacedStr) {
-                temp = $vm.replacedStr
+            if (this.relpaceStrByRegexp()) {
+                temp = this.relpaceStrByRegexp()
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
