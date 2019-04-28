@@ -635,7 +635,7 @@ export default {
                         ` });
             return src
         },
-        // test() {
+        // test () {
         //     this.relpaceStrByRe = () => {
         //         let src = this.d_value.replace(/foo/g,'bar')
         //         return src
@@ -652,8 +652,8 @@ export default {
             var $vm = this;
             // here
             let temp = ''
-            if (this.replacedStr) {
-                temp = this.replacedStr
+            if ($vm.replacedStr) {
+                temp = $vm.replacedStr
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
