@@ -644,15 +644,15 @@ export default {
         $videoAdd () {
             this.$emit('videoAdd')
         },
-        relpaceStrByRegexp() {
-            this.$emit('relpaceStrByRegexp')
-        },
+        // relpaceStrByRegexp() {
+        //     this.$emit('relpaceStrByRegexp')
+        // },
         iRender(toggleChange) {
             var $vm = this;
             // here
             let temp = ''
-            if (this.relpaceStrByRegexp()) {
-                temp = this.relpaceStrByRegexp()
+            if (this.$parent.relpaceFoo) {
+                temp = this.$parent.relpaceFoo($vm.d_value)
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
