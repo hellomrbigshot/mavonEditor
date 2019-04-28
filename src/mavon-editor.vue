@@ -122,7 +122,7 @@ export default {
     props: {
         videoSupport: {
             type: Boolean,
-            default: true
+            default: false
         },
         relpaceStrByRegexp: {
             type: Function,
