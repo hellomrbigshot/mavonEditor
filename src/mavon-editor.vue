@@ -649,7 +649,6 @@ export default {
         // },
         iRender(toggleChange) {
             var $vm = this;
-            // here
             let temp = ''
             if (this.$parent.replaceFoo) {
                 temp = this.$parent.replaceFoo($vm.d_value)
