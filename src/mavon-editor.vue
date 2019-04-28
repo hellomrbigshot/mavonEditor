@@ -651,8 +651,8 @@ export default {
             var $vm = this;
             // here
             let temp = ''
-            if (this.$parent.relpaceFoo) {
-                temp = this.$parent.relpaceFoo($vm.d_value)
+            if (this.$parent.replaceFoo) {
+                temp = this.$parent.replaceFoo($vm.d_value)
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
