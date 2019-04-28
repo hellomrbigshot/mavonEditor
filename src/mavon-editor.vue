@@ -124,9 +124,13 @@ export default {
             type: Boolean,
             default: true
         },
-        relpaceStrByRe: {
+        relpaceStrByRegexp: {
             type: Function,
             default: null
+        },
+        replacedStr: {
+            type: String,
+            default: ''
         },
         // 是否渲染滚动条样式(webkit)
         scrollStyle: {
@@ -642,14 +646,14 @@ export default {
             this.insertText(this.getTextareaDom(), obj);
         },
         $videoAdd () {
-            this.emit('$videoAdd')
+            this.$emit('$videoAdd')
         },
         iRender(toggleChange) {
             var $vm = this;
             // here
             let temp = ''
-            if (this.relpaceStrByRe) {
-                temp = this.relpaceStrByRe()
+            if (this.replacedStr) {
+                temp = this.replacedStr
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
