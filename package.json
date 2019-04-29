@@ -1,5 +1,5 @@
 {
-  "name": "leqee-mavon-editor",
+  "name": "@leqee/leqee-mavon-editor",
   "version": "1.0.0",
   "description": "Vue markdown editor",
   "main": "dist/mavon-editor.js",
