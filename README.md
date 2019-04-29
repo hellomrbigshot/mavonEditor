@@ -1,31 +1,38 @@
 ## fork后增加的内容:
 **1.自定义markdown语法。**
-
-**使用：** 在父组件methods定义方法 **$replaceRules(str){}** ，参数str即为需要渲染的值，将值修改后return
-**例：** 把左边编辑器中的'foo'字符串渲染成'bar'：
 ```js
-	$replaceRules(str){
-	    let res = str.replace(/foo/g,'bar')
-	      return res 
-	    },
+ /**
+   * @description 自定义markdown的替换规则。定义在mavonEditor父组件的方法（命名必须为$replaceRules），markdown内容修改就会触发
+   * @param str 接收的markdown内容
+   * @return 返回值 根据规则替换的结果（html格式）,mavonEditor原有规则会在返回之后再替换
+   */
+  $replaceRules(str){
+    return str.replace(/foo/g,'bar');
+    // return str.replace(/foo/g,'<div>foo</div>');
+  },
+
 ```
 
-**2. 在左侧工具栏加一个video相关按钮**
-**使用：** 父组件设置  **:videoSupport='true'**
+**2. 在左侧工具栏加一个video相关按钮，并给其添加事件**
 
-**3. 点击上述按钮的事件**
-**使用：** 父组件 **@videoAdd="foo"** , foo是你自定义的函数。
-**例子：**  在鼠标光标位置添加 'foo' 字符串
+```html
+<mavon-editor id="markdown" ref="md" v-model="markDown" :videoSupport='true' @videoAdd='foo'></mavon-editor>
+```
+
+**使用：** 在组件设置  **:videoSupport='true'**  **@videoAdd="foo"** , 其中foo是你自定义的函数。
+
+
+**3.在鼠标光标位置添加内容**
+
 ```js
-	foo(){
-	    this.$refs['md'].$addStrInCurrentArea({prefix: '',str: 'foo',subfix: ''})
-	}
+ /**
+   * @description 在鼠标光标位置添加内容
+   * @param str为添加时选中的内容，prefix为选中内容前的字符，subfix为选中内容后的字符。
+   */
+  // 例如下面这个就可以在光标位置添加一个 **粗体**， 运行效果可以点击工具栏的粗体按钮
+  this.$refs['md'].$addStrInCurrentArea({prefix: '**',str: '粗体',subfix: '**'})
 
 ```
-**4.在鼠标光标位置添加内容**
-**使用：**  `this.$refs['md'].$addStrInCurrentArea({prefix: '',str: '',subfix: ''})`
-其中str为添加时选中的内容，prefix为选中内容前的字符，subfix为选中内容后的字符。
-例如点击粗体时， 会添加`**粗体**`的字符串，其中的str就是'粗体'，prefix 和subfix都是`**`
 <br/>
 <br/>
 
