@@ -140,8 +140,8 @@
         name: 's-md-toolbar-left',
         props: {
             videoSupport: {
-            type: Boolean,
-            default: true
+                type: Boolean,
+                default: true
             },
             // 是否开启编辑
             editable: {

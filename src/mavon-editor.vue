@@ -1,7 +1,6 @@
 <template>
     <div :class="[{'fullscreen': s_fullScreen}]" class="v-note-wrapper markdown-body">
         <!--工具栏-->
-        <!-- <h3 @click="test">{{videoSupport?'开':'关'}}</h3> -->
         <div class="v-note-op" v-show="toolbarsFlag" :class="{'shadow': boxShadow}">
             <v-md-toolbar-left ref="toolbar_left" :editable="editable" :d_words="d_words"
                                @toolbar_left_click="toolbar_left_click" @toolbar_left_addlink="toolbar_left_addlink" :toolbars="toolbars"
@@ -124,10 +123,6 @@ export default {
             type: Boolean,
             default: false
         },
-        // relpaceStrByRegexp: {
-        //     type: Function,
-        //     default: null
-        // },
         // 是否渲染滚动条样式(webkit)
         scrollStyle: {
             type: Boolean,
@@ -344,7 +339,6 @@ export default {
         return this.mixins[0].data().markdownIt
     },
     methods: {
-    
         loadExternalLink(name, type, callback) {
             if (typeof this.p_external_link[name] !== 'function') {
                 if (this.p_external_link[name] != false) {
@@ -616,42 +610,18 @@ export default {
                 console.warn('hljs color scheme', val, 'do not exist, hljs color scheme will not change');
             }
         },
-        videoFoo(videoUrl = this.videoUrl, videoType = 'mp4') {
-            if (!this.videoSupport) {
-                return ''
-            }
-            let videoRe = /!\{{2}\s*(?<videoNumber>\d+)\s*\}{2}(\[(?<titleName>\S+)\])?/g
-            let src = this.d_value.replace(videoRe,function() {
-                return `<h3>number:${arguments[6].videoNumber} ${arguments[6].titleName ? '||title:' + arguments[6].titleName : ''}</h3>
-                        <video controls style="width:100%">
-                            <source src="${videoUrl}" type="video/mp4">
-                            Sorry, yosur browser doesn't support embedded videos.
-                        </video>
-                        <br/>
-                        ` });
-            return src
-        },
-        // test() {
-        //     this.relpaceStrByRe = () => {
-        //         let src = this.d_value.replace(/foo/g,'bar')
-        //         return src
-        //     }
-        //     this.iRender()
-        // },
-        $addStrInAnywhere(obj = {prefix: '',str: '',subfix: ''}) {
+        // 参数： 选中之前的 选中的str 选中之后
+        $addStrInCurrentArea(obj = {prefix: '',str: '',subfix: ''}) {
             this.insertText(this.getTextareaDom(), obj);
         },
         $videoAdd () {
             this.$emit('videoAdd')
         },
-        // relpaceStrByRegexp() {
-        //     this.$emit('relpaceStrByRegexp')
-        // },
         iRender(toggleChange) {
             var $vm = this;
             let temp = ''
-            if (this.$parent.replaceFoo) {
-                temp = this.$parent.replaceFoo($vm.d_value)
+            if (this.$parent.$replaceRules) {
+                temp = this.$parent.$replaceRules($vm.d_value)
             }
             this.$render(temp || $vm.d_value, function(res) {
                 // render
