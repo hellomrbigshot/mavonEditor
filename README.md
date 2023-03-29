@@ -1,16 +1,22 @@
+> 注意：这个包已改名为```@leqee/mavon-editor```发布到私有 ```npm``` 服务器上，因为代码托管在 ```github``` 上面所以设置了 ```.npmrc``` 文件夹不上传，本地发布时需要新增 ```.npmrc``` 文件 (可以直接从 ```oc-ext-components``` 复制)
+
 ## fork后增加的内容:
 **1.自定义markdown语法。**
 ```js
+<script setup>
  /**
-   * @description 自定义markdown的替换规则。定义在mavonEditor父组件的方法（命名必须为$replaceRules），markdown内容修改就会触发
+   * @description 自定义markdown的替换规则。
    * @param str 接收的markdown内容
    * @return 返回值 根据规则替换的结果（html格式）,mavonEditor原有规则会在返回之后再替换
    */
-  $replaceRules(str){
-    return str.replace(/foo/g,'bar');
-    // return str.replace(/foo/g,'<div>foo</div>');
-  },
-
+const $replaceRules = (str) => {
+  return str.replace(/foo/g,'bar');
+  // return str.replace(/foo/g,'<div>foo</div>');
+}
+</script>
+<template>
+  <mavon-editor :replaceRules="$replaceRules"  />
+</template>
 ```
 
 **2. 在左侧工具栏加一个video相关按钮，并给其添加事件**
@@ -35,6 +41,8 @@
 ```
 <br/>
 <br/>
+
+> 编辑器魔改之后，只有在切换到预览、开启标题导航和沉浸式阅读时才会把 ```markdown``` 解析成 ```html```，以防止过度请求获取 oss 接口。所以 ```change``` 方法只有在切换成这两个状态时才会触发。
 
 #### 以下为原项目README
 ***
@@ -171,6 +179,7 @@ export default {
 | imageClick | function |     null     |  图片点击事件，默认为预览，可覆盖 |
 | tabSize     | Number  |     \t     | tab转化为几个空格，默认为\t                      |
 | toolbars     | Object  |     如下例     | 工具栏                      |
+| replaceRules | Function |  | markdown的替换规则 |
 
 ```javascript
  /*

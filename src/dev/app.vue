@@ -96,7 +96,7 @@
                     subfield: false
                 },
                 autofocus: true,
-                subfield: true,
+                subfield: false,
                 editable: true,
                 toolbarsFlag: true,
                 img_file: {},
